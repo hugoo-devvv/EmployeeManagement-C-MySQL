@@ -36,5 +36,6 @@ int main(){
 
     }while(opt != 8);
 
+    return 0;
 
 }

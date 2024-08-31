@@ -18,7 +18,11 @@ typedef struct {
 }Employee;
 
 void finish_with_error(MYSQL* con);
-MYSQL* connection();
+MYSQL* connection(void);
+void printEmployeeHeader(void);
+void printBottomLine(void);
+void printRow(MYSQL_ROW row);
+void printList(MYSQL_RES* result);
 void displayFullList(MYSQL* con);
 
 #endif
