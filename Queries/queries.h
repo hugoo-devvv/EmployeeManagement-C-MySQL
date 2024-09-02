@@ -18,12 +18,18 @@ typedef struct {
 }Employee;
 
 void handleDatabaseError(MYSQL* connection);
-MYSQL* createDatabaseConnection(void);
-void printTableHeader(const char* columnHeaders[], int columnCount);
+MYSQL* createDatabaseConnection();
+void printTableHeader(string columnHeaders[], int columnCount);
 void printTableBottomLine(int columnCount);
 void printTableRow(MYSQL_ROW row, int columnCount);
-void executeAndDisplayQuery(MYSQL* connection, const char* query, const char* columnHeaders[], int columnCount);
+void executeAndDisplayQuery(MYSQL* connection, string query, string columnHeaders[], int columnCount);
+string* employeeHeaders();
+string* departmentHeaders();
 void showEmployeeList(MYSQL* connection);
 void showDepartmentList(MYSQL* connection);
+void searchByName(MYSQL* connection);
+void searchOptionsCase(int option, MYSQL* connection);
+void searchOptions(MYSQL* connection);
+
 
 #endif

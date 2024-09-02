@@ -4,6 +4,11 @@ string get_string(){
     size_t len = 0;
     string line = NULL;
     getline(&line, &len, stdin);
+
+    if (line[strlen(line) - 1] == '\n') {
+        line[strlen(line) - 1] = '\0';
+    }
+
     return line;
 }
 
@@ -29,6 +34,7 @@ string get_email(const char* prompt){
 string get_string_validation(const char* prompt){
     char special_characters[] = {'@', '!', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';', ':', '\'', '\"', ',', '.', '<', '>', '/', '\\', '|', '`', '~'};
     string name;
+    int special_characters_count = sizeof(special_characters) / sizeof(special_characters[0]);
     int has_especial;
 
     while(1){
@@ -37,7 +43,7 @@ string get_string_validation(const char* prompt){
         has_especial = 0;
 
         for(int i = 0; name[i] != '\0'; i++){
-            for(int j = 0; j < sizeof(special_characters); j++){
+            for(int j = 0; j < special_characters_count; j++){
                 if(name[i] == special_characters[j]){
                     has_especial = 1;
                     break;
@@ -53,7 +59,7 @@ string get_string_validation(const char* prompt){
 }
 
 int get_int(const char* prompt){
-    printf("%s", prompt);
+    printf("\n%s", prompt);
 
     int value;
     while(scanf("%d", &value) != 1){

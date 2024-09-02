@@ -6,7 +6,7 @@ void handleDatabaseError(MYSQL* connection) {
     exit(EXIT_FAILURE);
 }
 
-MYSQL* createDatabaseConnection(void) {
+MYSQL* createDatabaseConnection() {
     MYSQL* connection = mysql_init(NULL);
     if (connection == NULL) {
         fprintf(stderr, "%s\n", mysql_error(connection));
@@ -20,7 +20,7 @@ MYSQL* createDatabaseConnection(void) {
     return connection;
 }
 
-void printTableHeader(const char* columnHeaders[], int columnCount) {
+void printTableHeader(string columnHeaders[], int columnCount) {
     printf("\n");
     printf("+");
     for (int i = 0; i < columnCount; i++) {
@@ -53,7 +53,7 @@ void printTableRow(MYSQL_ROW row, int columnCount) {
     printf("\n");
 }
 
-void executeAndDisplayQuery(MYSQL* connection, const char* query, const char* columnHeaders[], int columnCount) {
+void executeAndDisplayQuery(MYSQL* connection, string query, string columnHeaders[], int columnCount) {
     if (mysql_query(connection, query)) {
         handleDatabaseError(connection);
     }
@@ -73,13 +73,70 @@ void executeAndDisplayQuery(MYSQL* connection, const char* query, const char* co
     mysql_free_result(result);
 }
 
+string* employeeHeaders() {
+    static string headers[] = {"Id", "Name", "Lastname", "Sex", "Address", "DepartmentId", "Phone", "EntryDate"};
+    return headers;
+}
+
+string* departmentHeaders() {
+    static string headers[] = {"Id", "Name"};
+    return headers;
+}
+
 void showEmployeeList(MYSQL* connection) {
-    const char* employeeHeaders[] = {"Id", "Name", "Lastname", "Sex", "Address", "DepartmentId", "Phone", "EntryDate"};
-    executeAndDisplayQuery(connection, "SELECT * FROM Employees", employeeHeaders, 8);
+    string* header = employeeHeaders();
+    executeAndDisplayQuery(connection, "SELECT * FROM Employees", header, 8);
 }
 
 void showDepartmentList(MYSQL* connection) {
-    const char* departmentHeaders[] = {"Id", "Name"};
-    executeAndDisplayQuery(connection, "SELECT * FROM Department", departmentHeaders, 2);
+    string* header = departmentHeaders();
+    executeAndDisplayQuery(connection, "SELECT * FROM Department", header, 2);
 }
 
+void searchById(MYSQL* connection) {
+    char query[256];
+    int id = get_int("Enter the id: ");
+    snprintf(query,sizeof(query),"SELECT * FROM Employees WHERE Id = %d", id);
+    string* header = employeeHeaders();
+    executeAndDisplayQuery(connection, query, header, 8);
+}
+
+void searchByName(MYSQL* connection) {
+    char query[256];
+    getchar();
+    string name = get_string_validation("Enter the name: ");
+    snprintf(query,sizeof(query),"SELECT * FROM Employees WHERE Name = '%s'", name);
+    free(name);
+    string* header = employeeHeaders();
+    executeAndDisplayQuery(connection, query, header, 8);
+}
+
+/*
+
+TO-DO
+    Complete all search options and optimize functions that perform similar tasks.
+
+*/
+
+void searchOptionsCase(int option, MYSQL* connection) {
+    switch (option) {
+    case 1:
+        searchById(connection);
+        break;
+    case 2:
+        searchByName(connection);
+        break;
+    default:
+        printf("\nPlease, enter a valid option.\n");
+        break;
+    }
+}
+
+void searchOptions(MYSQL* connection) {
+    showSearchOptions();
+    int option = get_int("\nEnter your option: ");
+    searchOptionsCase(option, connection);
+}
+
+
+// PTo compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient

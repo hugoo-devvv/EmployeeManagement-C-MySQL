@@ -21,5 +21,7 @@ int get_int(const char* prompt);
 float get_float(const char* prompt);
 int validate_date(Date date);
 Date get_date(const char* prompt);
+void showSearchOptions();
+void showMainMenu();
 
 #endif
