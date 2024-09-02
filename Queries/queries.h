@@ -17,12 +17,13 @@ typedef struct {
 
 }Employee;
 
-void finish_with_error(MYSQL* con);
-MYSQL* connection(void);
-void printEmployeeHeader(void);
-void printBottomLine(void);
-void printRow(MYSQL_ROW row);
-void printList(MYSQL_RES* result);
-void displayFullList(MYSQL* con);
+void handleDatabaseError(MYSQL* connection);
+MYSQL* createDatabaseConnection(void);
+void printTableHeader(const char* columnHeaders[], int columnCount);
+void printTableBottomLine(int columnCount);
+void printTableRow(MYSQL_ROW row, int columnCount);
+void executeAndDisplayQuery(MYSQL* connection, const char* query, const char* columnHeaders[], int columnCount);
+void showEmployeeList(MYSQL* connection);
+void showDepartmentList(MYSQL* connection);
 
 #endif

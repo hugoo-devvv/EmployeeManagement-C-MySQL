@@ -1,7 +1,7 @@
 #include "Queries/queries.h"
 
 void displayMenu(){
-    printf("\nEMPLOYEE MANAGEMENT\n");
+    printf("\nEMPLOYEE MANAGEMENT\n\n");
     printf("1. - Display employee list\n");
     printf("2. - Display department list\n");
     printf("3. - Search for an employee\n");
@@ -15,18 +15,22 @@ void displayMenu(){
 int main(){
 
     int opt;
-    MYSQL* con = connection();
+    MYSQL* con = createDatabaseConnection();
         
     do{
         displayMenu();
-        opt = get_int("Enter your option (1-7): ");
+        opt = get_int("Enter your option: ");
 
         switch(opt){
             case 1:
-                displayFullList(con);
+                showEmployeeList(con);
+            break;
+            case 2:
+                showDepartmentList(con);
             break;
             case 8:
                 printf("\nExit program...\n");
+                mysql_close(con);
             break;
             default:
                 printf("\nPlease enter a valid option, try again.\n");
