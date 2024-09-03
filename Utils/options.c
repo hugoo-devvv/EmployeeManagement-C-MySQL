@@ -19,3 +19,7 @@ void showMainMenu(){
     printf("8. - Exit\n");
 }
 
+void showSearchByGenderMenu() {
+    printf("1.- MALE (M)\n2.- FEMALE (F)");
+}
+

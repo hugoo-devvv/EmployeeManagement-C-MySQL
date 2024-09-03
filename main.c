@@ -19,6 +19,9 @@ int main(){
             case 3:
                 searchOptions(con);
             break;
+            case 4:
+                countEmployeesInDepartment(con);
+            break;
             case 8:
                 printf("\nExit program...\n");
                 mysql_close(con);

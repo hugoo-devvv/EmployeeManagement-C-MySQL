@@ -32,6 +32,7 @@ void searchOptionsCase(int option, MYSQL* connection);
 void searchOptions(MYSQL* connection);
 void searchByDepartment(MYSQL* connection);
 int searchByDepartmentOptions(MYSQL* connection);
+void countEmployeesInDepartment(MYSQL* connection);
 
 
 #endif

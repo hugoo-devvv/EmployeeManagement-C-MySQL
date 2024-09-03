@@ -137,7 +137,7 @@ void searchByDepartment(MYSQL* connection) {
 }
 
 char searchByGenderOptions() {
-    printf("1.- MALE (M)\n2.- FEMALE (F)");
+    showSearchByGenderMenu(); 
     while(1){
         char option = get_char("Enter your option: ");
         if(option == 'M' || option == 'F') {return option;}
@@ -180,5 +180,20 @@ void searchOptions(MYSQL* connection) {
     searchOptionsCase(option, connection);
 }
 
+void countEmployeesInDepartment(MYSQL* connection) {
+    int id = searchByDepartmentOptions(connection);
+
+    char query[256];
+    snprintf(query, sizeof(query), "SELECT COUNT(*) AS TOTAL FROM Employees WHERE DepartamentID = %d", id);
+    string header[] = {"TOTAL"};
+    executeAndDisplayQuery(connection, query, header, 1);
+}
+
+/*
+string* departmentHeaders() {
+    static string headers[] = {"Id", "Name"};
+    return headers;
+}
+*/
 
 // To compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient

@@ -24,5 +24,6 @@ int validate_date(Date date);
 Date get_date(const char* prompt);
 void showSearchOptions();
 void showMainMenu();
+void showSearchByGenderMenu();
 
 #endif
