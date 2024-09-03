@@ -30,6 +30,8 @@ void showDepartmentList(MYSQL* connection);
 void searchByName(MYSQL* connection);
 void searchOptionsCase(int option, MYSQL* connection);
 void searchOptions(MYSQL* connection);
+void searchByDepartment(MYSQL* connection);
+int searchByDepartmentOptions(MYSQL* connection);
 
 
 #endif

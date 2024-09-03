@@ -80,6 +80,17 @@ float get_float(const char* prompt){
     return value;
 }
 
+char get_char(const char* prompt){
+    printf("\n%s", prompt);
+
+    char value;
+    while(scanf(" %c", &value) != 1){
+        while(getchar() != '\n');
+        printf("\nPlease, enter a character: ");
+    }
+    return value;
+}
+
 int validate_date(Date date){
     if(date.year > 2100 || date.year < 1900){return 0;}
     if(date.month > 12 || date.day <= 0){return 0;}

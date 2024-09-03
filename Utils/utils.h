@@ -19,6 +19,7 @@ string get_email(const char* prompt);
 string get_string_validation(const char* prompt);
 int get_int(const char* prompt);
 float get_float(const char* prompt);
+char get_char(const char* prompt);
 int validate_date(Date date);
 Date get_date(const char* prompt);
 void showSearchOptions();

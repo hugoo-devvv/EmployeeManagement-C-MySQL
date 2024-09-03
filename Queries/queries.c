@@ -63,6 +63,13 @@ void executeAndDisplayQuery(MYSQL* connection, string query, string columnHeader
         handleDatabaseError(connection);
     }
 
+    int num_rows = mysql_num_rows(result);
+    if(num_rows == 0) {
+        printf("\nNo records found.\n");
+        mysql_free_result(result);
+        return;
+    }
+
     printTableHeader(columnHeaders, columnCount);
     MYSQL_ROW row;
     while ((row = mysql_fetch_row(result))) {
@@ -111,12 +118,41 @@ void searchByName(MYSQL* connection) {
     executeAndDisplayQuery(connection, query, header, 8);
 }
 
-/*
+int searchByDepartmentOptions(MYSQL* connection) {
+    showDepartmentList(connection);
+    while(1){
+        int option = get_int("Choose the department: ");
+        if(option != 0 && option > 0) {return option;}
+        printf("\nPlease, enter a valid id.\n");
+    }
+}
 
-TO-DO
-    Complete all search options and optimize functions that perform similar tasks.
+void searchByDepartment(MYSQL* connection) {
+    int id = searchByDepartmentOptions(connection);
 
-*/
+    char query[256];
+    snprintf(query, sizeof(query), "SELECT * FROM Employees WHERE DepartamentID = %d", id);
+    string* header = departmentHeaders();
+    executeAndDisplayQuery(connection, query, header, 2);
+}
+
+char searchByGenderOptions() {
+    printf("1.- MALE (M)\n2.- FEMALE (F)");
+    while(1){
+        char option = get_char("Enter your option: ");
+        if(option == 'M' || option == 'F') {return option;}
+        printf("\nPlease enter a valid sex.\n");
+    }
+}
+
+void searchByGender(MYSQL* connection) {
+    char gender = searchByGenderOptions(connection);
+
+    char query[256];
+    snprintf(query, sizeof(query), "SELECT * FROM Employees WHERE Sex = '%c'", gender); 
+    string* header = employeeHeaders();
+    executeAndDisplayQuery(connection, query, header, 8);  
+}
 
 void searchOptionsCase(int option, MYSQL* connection) {
     switch (option) {
@@ -125,6 +161,12 @@ void searchOptionsCase(int option, MYSQL* connection) {
         break;
     case 2:
         searchByName(connection);
+        break;
+    case 3:
+        searchByDepartment(connection);
+        break;
+    case 4:
+        searchByGender(connection);
         break;
     default:
         printf("\nPlease, enter a valid option.\n");
@@ -139,4 +181,4 @@ void searchOptions(MYSQL* connection) {
 }
 
 
-// PTo compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient
+// To compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient
