@@ -22,6 +22,9 @@ int main(){
             case 4:
                 countEmployeesInDepartment(con);
             break;
+            case 5:
+                addElementOptions(con);
+            break;
             case 8:
                 printf("\nExit program...\n");
                 mysql_close(con);

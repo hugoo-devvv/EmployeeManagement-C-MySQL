@@ -189,11 +189,46 @@ void countEmployeesInDepartment(MYSQL* connection) {
     executeAndDisplayQuery(connection, query, header, 1);
 }
 
-/*
-string* departmentHeaders() {
-    static string headers[] = {"Id", "Name"};
-    return headers;
+void addEmployee(MYSQL* connection) {
+    getchar();
+    string name = get_string_validation("Enter the name: ");
+    string lastname = get_string_validation("Enter the lastname: ");
+    char sex = get_char("Enter the gender (M or F): ");
+    getchar();
+    string address = get_string_validation("Enter the address: ");
+    int departmentId;
+    while(1) {
+        departmentId = get_int("Enter the department id (Enter 0 if you want to see the departments): ");
+        if(departmentId == 0) {showDepartmentList(connection);} else {break;}
+    }
+    int phone = get_int("Enter the phone number: ");
+    Date entryDate = get_date("Enter the entry date (Format YYYY-MM-DD): "); 
+
+    char query[256];
+
+    snprintf(query, sizeof(query),
+        "INSERT INTO Employees (Name, Lastname, Sex, Address, departamentId, Phone, EntryDate) "
+        "VALUES ('%s', '%s', '%c', '%s', %d, %d, '%d-%d-%d')", name, lastname, sex, address, departmentId, phone, entryDate.year, entryDate.month, entryDate.day);
+
+    /*
+    
+    
+    TO-DO Separate the displayAndExecute funcion to execure the crud querys, also refactor the code to be more clean.
+    
+    
+    */
 }
-*/
+
+
+void addElementOptions(MYSQL* connection) {
+
+    showCrudOptions();
+    int option = get_int("Enter your option: ");
+    if(option == 1) {
+        addEmployee(connection);
+    }
+}
+
+
 
 // To compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient

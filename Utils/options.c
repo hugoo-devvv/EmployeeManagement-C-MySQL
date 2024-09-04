@@ -23,3 +23,8 @@ void showSearchByGenderMenu() {
     printf("1.- MALE (M)\n2.- FEMALE (F)");
 }
 
+void showCrudOptions(){
+    printf("\nSELECT WICH YOU WISH TO MODIFY: ");
+    printf("\n1.- Employee");
+    printf("\n2.- Department");
+}
