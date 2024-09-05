@@ -53,10 +53,15 @@ void printTableRow(MYSQL_ROW row, int columnCount) {
     printf("\n");
 }
 
-void executeAndDisplayQuery(MYSQL* connection, string query, string columnHeaders[], int columnCount) {
-    if (mysql_query(connection, query)) {
+void getQuery(MYSQL* connection, string query) {
+        if (mysql_query(connection, query)) {
         handleDatabaseError(connection);
     }
+}
+
+void executeAndDisplayQuery(MYSQL* connection, string query, string columnHeaders[], int columnCount) {
+
+    getQuery(connection, query);
 
     MYSQL_RES* result = mysql_store_result(connection);
     if (result == NULL) {
@@ -210,13 +215,7 @@ void addEmployee(MYSQL* connection) {
         "INSERT INTO Employees (Name, Lastname, Sex, Address, departamentId, Phone, EntryDate) "
         "VALUES ('%s', '%s', '%c', '%s', %d, %d, '%d-%d-%d')", name, lastname, sex, address, departmentId, phone, entryDate.year, entryDate.month, entryDate.day);
 
-    /*
-    
-    
-    TO-DO Separate the displayAndExecute funcion to execure the crud querys, also refactor the code to be more clean.
-    
-    
-    */
+        getQuery(connection, query);
 }
 
 
