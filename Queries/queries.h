@@ -5,18 +5,6 @@
     #include "../Utils/utils.h"
     #include <mysql/mysql.h>
 
-typedef struct {
-
-    string name;
-    string lastname;
-    char sex;
-    string address;
-    int departamentId;
-    int phone;
-    Date entryDate;
-
-}Employee;
-
 void handleDatabaseError(MYSQL* connection);
 MYSQL* createDatabaseConnection();
 void printTableHeader(string columnHeaders[], int columnCount);

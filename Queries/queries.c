@@ -54,9 +54,19 @@ void printTableRow(MYSQL_ROW row, int columnCount) {
 }
 
 void getQuery(MYSQL* connection, string query) {
-        if (mysql_query(connection, query)) {
+    if (mysql_query(connection, query)) {
         handleDatabaseError(connection);
     }
+}
+
+void displayEmployeeQueryAndHeader(MYSQL* connection, string query) {
+    string* header = employeeHeaders();
+    executeAndDisplayQuery(connection, query, header, 8);
+}
+
+void displayDepartmentQueryAndHeader(MYSQL* connection, string query) {
+    string* header = departmentHeaders();
+    executeAndDisplayQuery(connection, query, header, 2);
 }
 
 void executeAndDisplayQuery(MYSQL* connection, string query, string columnHeaders[], int columnCount) {
@@ -109,8 +119,7 @@ void searchById(MYSQL* connection) {
     char query[256];
     int id = get_int("Enter the id: ");
     snprintf(query,sizeof(query),"SELECT * FROM Employees WHERE Id = %d", id);
-    string* header = employeeHeaders();
-    executeAndDisplayQuery(connection, query, header, 8);
+    displayEmployeeQueryAndHeader(connection, query);
 }
 
 void searchByName(MYSQL* connection) {
@@ -119,8 +128,7 @@ void searchByName(MYSQL* connection) {
     string name = get_string_validation("Enter the name: ");
     snprintf(query,sizeof(query),"SELECT * FROM Employees WHERE Name = '%s'", name);
     free(name);
-    string* header = employeeHeaders();
-    executeAndDisplayQuery(connection, query, header, 8);
+    displayEmployeeQueryAndHeader(connection, query);
 }
 
 int searchByDepartmentOptions(MYSQL* connection) {
@@ -137,8 +145,7 @@ void searchByDepartment(MYSQL* connection) {
 
     char query[256];
     snprintf(query, sizeof(query), "SELECT * FROM Employees WHERE DepartamentID = %d", id);
-    string* header = departmentHeaders();
-    executeAndDisplayQuery(connection, query, header, 2);
+    displayEmployeeQueryAndHeader(connection, query);
 }
 
 char searchByGenderOptions() {
@@ -155,8 +162,7 @@ void searchByGender(MYSQL* connection) {
 
     char query[256];
     snprintf(query, sizeof(query), "SELECT * FROM Employees WHERE Sex = '%c'", gender); 
-    string* header = employeeHeaders();
-    executeAndDisplayQuery(connection, query, header, 8);  
+    displayEmployeeQueryAndHeader(connection, query);  
 }
 
 void searchOptionsCase(int option, MYSQL* connection) {
@@ -215,19 +221,13 @@ void addEmployee(MYSQL* connection) {
         "INSERT INTO Employees (Name, Lastname, Sex, Address, departamentId, Phone, EntryDate) "
         "VALUES ('%s', '%s', '%c', '%s', %d, %d, '%d-%d-%d')", name, lastname, sex, address, departmentId, phone, entryDate.year, entryDate.month, entryDate.day);
 
-        getQuery(connection, query);
+    getQuery(connection, query);
 }
 
-
 void addElementOptions(MYSQL* connection) {
-
     showCrudOptions();
     int option = get_int("Enter your option: ");
     if(option == 1) {
         addEmployee(connection);
     }
 }
-
-
-
-// To compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient
