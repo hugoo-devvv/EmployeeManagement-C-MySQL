@@ -25,6 +25,7 @@ Date get_date(const char* prompt);
 void showSearchOptions();
 void showMainMenu();
 void showSearchByGenderMenu();
-void showCrudOptions();
+int showCrudOptions();
+
 
 #endif

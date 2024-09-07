@@ -53,12 +53,6 @@ void printTableRow(MYSQL_ROW row, int columnCount) {
     printf("\n");
 }
 
-void getQuery(MYSQL* connection, string query) {
-    if (mysql_query(connection, query)) {
-        handleDatabaseError(connection);
-    }
-}
-
 void displayEmployeeQueryAndHeader(MYSQL* connection, string query) {
     string* header = employeeHeaders();
     executeAndDisplayQuery(connection, query, header, 8);
@@ -67,6 +61,12 @@ void displayEmployeeQueryAndHeader(MYSQL* connection, string query) {
 void displayDepartmentQueryAndHeader(MYSQL* connection, string query) {
     string* header = departmentHeaders();
     executeAndDisplayQuery(connection, query, header, 2);
+}
+
+void getQuery(MYSQL* connection, string query) {
+    if (mysql_query(connection, query)) {
+        handleDatabaseError(connection);
+    }
 }
 
 void executeAndDisplayQuery(MYSQL* connection, string query, string columnHeaders[], int columnCount) {
@@ -200,34 +200,71 @@ void countEmployeesInDepartment(MYSQL* connection) {
     executeAndDisplayQuery(connection, query, header, 1);
 }
 
-void addEmployee(MYSQL* connection) {
+Employee getEmployeeData (MYSQL* connection) {
+
+    Employee e;
+
     getchar();
-    string name = get_string_validation("Enter the name: ");
-    string lastname = get_string_validation("Enter the lastname: ");
-    char sex = get_char("Enter the gender (M or F): ");
+    e.name = get_string_validation("Enter the name: ");
+    e.lastname = get_string_validation("Enter the lastname: ");
+    e.sex = get_char("Enter the gender (M/F): ");
     getchar();
-    string address = get_string_validation("Enter the address: ");
-    int departmentId;
+    e.address = get_string_validation("Enter the address: ");
     while(1) {
-        departmentId = get_int("Enter the department id (Enter 0 if you want to see the departments): ");
-        if(departmentId == 0) {showDepartmentList(connection);} else {break;}
+        e.departmentId = get_int("Enter the department id (Enter 0 if you want to see the departments): ");
+        if(e.departmentId == 0) {
+            showDepartmentList(connection);
+        }else {
+            break;
+        }
     }
-    int phone = get_int("Enter the phone number: ");
-    Date entryDate = get_date("Enter the entry date (Format YYYY-MM-DD): "); 
+    e.phone = get_int("Enter the phone number: ");
+    e.entryDate = get_date("Enter the entry date (Format: YYYY-MM-DD): ");
 
-    char query[256];
+    return e;
+}
 
+string getDepartmentData (MYSQL* connection) {
+    getchar();
+    string name = get_string_validation("Enter the department name: ");
+
+    return name;
+}
+
+void insertDepartmentInDatabase (MYSQL* connection) {
+    char query[255];
+    string name = getDepartmentData(connection);
+    snprintf(query, sizeof(query), "INSERT INTO Department (Name) VALUES ('%s')", name);
+    getQuery(connection, query);
+}
+
+void insertEmployeeInDatabase(MYSQL* connection, Employee e) {
+    char query[255];
     snprintf(query, sizeof(query),
-        "INSERT INTO Employees (Name, Lastname, Sex, Address, departamentId, Phone, EntryDate) "
-        "VALUES ('%s', '%s', '%c', '%s', %d, %d, '%d-%d-%d')", name, lastname, sex, address, departmentId, phone, entryDate.year, entryDate.month, entryDate.day);
+             "INSERT INTO Employees (Name, Lastname, Sex, address, DepartamentId, Phone, EntryDate) "
+             "VALUES ('%s', '%s', '%c', '%s', %d, %d, '%d%d%d');",
+             e.name, e.lastname, e.sex, e.address, e.departmentId, e.phone, e.entryDate.year, e.entryDate.month, e.entryDate.day);
 
     getQuery(connection, query);
 }
 
 void addElementOptions(MYSQL* connection) {
-    showCrudOptions();
-    int option = get_int("Enter your option: ");
+    int option = showCrudOptions();
     if(option == 1) {
-        addEmployee(connection);
+        Employee newEmployee = getEmployeeData(connection);
+        insertEmployeeInDatabase(connection, newEmployee);
+    } else if(option == 2) {
+        insertDepartmentInDatabase(connection);
+    }else {
+        printf("\nEnter a valid option.\n");
+        return;
     }
 }
+
+/*
+
+    TO DO, Finish the last 2 options for crud and make a sighly clean in the code
+
+*/
+
+// To compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient
