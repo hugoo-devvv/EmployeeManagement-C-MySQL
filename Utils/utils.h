@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef char* string;
 
@@ -20,12 +21,14 @@ string get_string_validation(const char* prompt);
 int get_int(const char* prompt);
 float get_float(const char* prompt);
 char get_char(const char* prompt);
+char get_gender(const char* prompt);
 int validate_date(Date date);
 Date get_date(const char* prompt);
 void showSearchOptions();
 void showMainMenu();
 void showSearchByGenderMenu();
 int showCrudOptions();
+int showUpdateOptions();
 
 
 #endif

@@ -80,7 +80,7 @@ void executeAndDisplayQuery(MYSQL* connection, string query, string columnHeader
 
     int num_rows = mysql_num_rows(result);
     if(num_rows == 0) {
-        printf("\nNo records found.\n");
+        printf("\nNo records found.");
         mysql_free_result(result);
         return;
     }
@@ -115,9 +115,8 @@ void showDepartmentList(MYSQL* connection) {
     executeAndDisplayQuery(connection, "SELECT * FROM Department", header, 2);
 }
 
-void searchById(MYSQL* connection) {
+void searchById(MYSQL* connection, int id) {
     char query[256];
-    int id = get_int("Enter the id: ");
     snprintf(query,sizeof(query),"SELECT * FROM Employees WHERE Id = %d", id);
     displayEmployeeQueryAndHeader(connection, query);
 }
@@ -166,9 +165,11 @@ void searchByGender(MYSQL* connection) {
 }
 
 void searchOptionsCase(int option, MYSQL* connection) {
+    int id;
     switch (option) {
     case 1:
-        searchById(connection);
+        id = get_int("\nEnter id: ");
+        searchById(connection, id);
         break;
     case 2:
         searchByName(connection);
@@ -201,13 +202,12 @@ void countEmployeesInDepartment(MYSQL* connection) {
 }
 
 Employee getEmployeeData (MYSQL* connection) {
-
     Employee e;
 
     getchar();
     e.name = get_string_validation("Enter the name: ");
     e.lastname = get_string_validation("Enter the lastname: ");
-    e.sex = get_char("Enter the gender (M/F): ");
+    e.sex = get_gender("Enter the gender (M / F): ");
     getchar();
     e.address = get_string_validation("Enter the address: ");
     while(1) {
@@ -218,7 +218,8 @@ Employee getEmployeeData (MYSQL* connection) {
             break;
         }
     }
-    e.phone = get_int("Enter the phone number: ");
+    getchar();
+    e.phone = get_string_validation("Enter the phone number: ");
     e.entryDate = get_date("Enter the entry date (Format: YYYY-MM-DD): ");
 
     return e;
@@ -242,7 +243,7 @@ void insertEmployeeInDatabase(MYSQL* connection, Employee e) {
     char query[255];
     snprintf(query, sizeof(query),
              "INSERT INTO Employees (Name, Lastname, Sex, address, DepartamentId, Phone, EntryDate) "
-             "VALUES ('%s', '%s', '%c', '%s', %d, %d, '%d%d%d');",
+             "VALUES ('%s', '%s', '%c', '%s', %d, %s, '%d-%d-%d');",
              e.name, e.lastname, e.sex, e.address, e.departmentId, e.phone, e.entryDate.year, e.entryDate.month, e.entryDate.day);
 
     getQuery(connection, query);
@@ -261,10 +262,118 @@ void addElementOptions(MYSQL* connection) {
     }
 }
 
+int searchEmployeeForUpdates(MYSQL* connection) {
+    char option;
+    while(1) {
+        int id = get_int("Enter employeer id: ");
+        searchById(connection, id);
+        option = get_char("\nThis is the employeer? (Y/N): ");
+        if (option == 'Y') {
+            return id;
+        }
+    }
+}
+
+void updateEmployeeName(MYSQL* connection, int id) {
+    getchar();
+    string name = get_string_validation("Enter new name: ");
+    char query[256];
+    snprintf(query, sizeof(query), "UPDATE Employees SET Name = '%s' WHERE Id = %d", name, id);
+    getQuery(connection, query);
+    free(name);
+}
+
+void updateEmployeeLastname(MYSQL* connection, int id) {
+    getchar();
+    string lastname = get_string_validation("Enter the new lastname: ");
+    char query[256];
+    snprintf(query, sizeof(query), "UPDATE Employees SET Lastname = '%s' WHERE Id = %d", lastname, id);
+    getQuery(connection, query);
+    free(lastname);
+}
+
+void updateEmployeeGender(MYSQL* connection, int id) {
+    getchar();
+    char gender = get_gender("Enter the new gender (M / F): ");
+    char query[256];
+    snprintf(query, sizeof(query), "UPDATE Employees SET Sex = '%c' WHERE Id = %d", gender, id);
+    getQuery(connection, query);
+}
+
+void updateEmployeeAddress(MYSQL* connection, int id) {
+    getchar();
+    string address = get_string_validation("Enter the new address: ");
+    char query[256];
+    snprintf(query, sizeof(query), "UPDATE Employees SET Address = '%s' WHERE Id = %d", address, id);
+    getQuery(connection, query);
+    free(address);
+}
+
+void updateEmployeeDepartmentId(MYSQL* connection, int id) {
+    int departmentId = get_int("Enter the new department id: ");
+    char query[256];
+    snprintf(query, sizeof(query), "UPDATE Employees SET DepartamentId = %d WHERE Id = %d", departmentId, id);
+    getQuery(connection, query);
+}
+
+void updateEmployeePhone(MYSQL* connection, int id) {
+    int phone = get_int("Enter the new phone: ");
+    char query[256];
+    snprintf(query, sizeof(query), "UPDATE Employees SET Phone = %d WHERE Id = %d", phone, id);
+    getQuery(connection, query);
+}
+
+void updateEmployeeEntryDate(MYSQL* connection, int id) {
+    Date entryDate = get_date("Enter the new entry date: ");
+    char query[256];
+    snprintf(query, sizeof(query), "UPDATE Employees SET EntryDate = '%d-%d-%d' WHERE Id = %d", entryDate.year, entryDate.month, entryDate.day, id);
+    getQuery(connection, query);
+}
+
+void updateEmployeeSwitchOptions(MYSQL* connection) {
+    int id = searchEmployeeForUpdates(connection);
+    int option = showUpdateOptions();
+    switch(option) {
+        case 1:
+            updateEmployeeName(connection, id);
+        break;
+        case 2:
+            updateEmployeeLastname(connection, id);
+        break;
+        case 3:
+            updateEmployeeGender(connection, id);
+        break;
+        case 4:
+            updateEmployeeAddress(connection, id);
+        break;
+        case 5:
+            updateEmployeeDepartmentId(connection, id);
+        break;
+        case 6:
+            updateEmployeePhone(connection, id);
+        break;
+        case 7:
+            updateEmployeeEntryDate(connection, id);
+        break;
+        default:
+            printf("\nEnter a valid option.\n");
+        break;
+    }
+}
+
+void updateElementOptions(MYSQL* connection) {
+    int option = showCrudOptions();
+    if(option == 1) {
+        updateEmployeeSwitchOptions(connection);
+    }
+
+}
+
 /*
 
-    TO DO, Finish the last 2 options for crud and make a sighly clean in the code
+    TO-DO  finish update funcions
 
 */
+
 
 // To compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient

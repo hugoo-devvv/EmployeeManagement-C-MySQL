@@ -25,6 +25,9 @@ int main(){
             case 5:
                 addElementOptions(con);
             break;
+            case 6:
+                updateElementOptions(con);
+            break;
             case 8:
                 printf("\nExit program...\n");
                 mysql_close(con);

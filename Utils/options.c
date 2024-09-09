@@ -28,7 +28,21 @@ int showCrudOptions(){
     printf("\nSELECT WICH OPTION YOU WISH TO MODIFY\n");
     printf("\n1.- Employee");
     printf("\n2.- Department");
-    option = get_int("\nEnter the opcion: ");
+    option = get_int("\nEnter option: ");
 
+    return option;
+}
+
+int showUpdateOptions() {
+    int option;
+    printf("\nSELECT WICH OPTION YOU WISH TO MODIFY\n");
+    printf("\n1 .- Name");
+    printf("\n2 .- Lastname");
+    printf("\n3 .- Sex");
+    printf("\n4 .- Address");
+    printf("\n5 .- Department ID");
+    printf("\n6 .- Phone");
+    printf("\n7 .- Entry Date");
+    option = get_int("Enter option: ");
     return option;
 }

@@ -53,7 +53,7 @@ string get_string_validation(const char* prompt){
         if(!has_especial){
             return name;
         }
-        printf("\nThe name must not have special characters. Try again.\n");
+        printf("\nThe text must not have special characters. Try again.\n");
         free(name);
     }
 }
@@ -87,6 +87,25 @@ char get_char(const char* prompt){
     while(scanf(" %c", &value) != 1){
         while(getchar() != '\n');
         printf("\nPlease, enter a character: ");
+    }
+    value = toupper(value);
+    return value;
+}
+
+char get_gender(const char* prompt) {
+    printf("\n%s", prompt);
+    char value;
+    while(1) {
+        if(scanf(" %c", &value) != 1) {
+            while(getchar() != '\n');
+            printf("\nPlease, enter a character: ");
+            continue;
+        }
+        value = toupper(value);
+        if(value == 'F' || value == 'M') {
+            break;
+        }
+        printf("\nPlease enter 'M' for male or 'F' for female: ");
     }
     return value;
 }

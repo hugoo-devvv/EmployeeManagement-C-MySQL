@@ -12,7 +12,7 @@ typedef struct {
     char sex;
     string address;
     int departmentId;
-    int phone;
+    string phone;
     Date entryDate;
 
 }Employee;
@@ -30,7 +30,7 @@ string* employeeHeaders();
 string* departmentHeaders();
 void showEmployeeList(MYSQL* connection);
 void showDepartmentList(MYSQL* connection);
-void searchById(MYSQL* connection);
+void searchById(MYSQL* connection, int id);
 void searchByName(MYSQL* connection);
 int searchByDepartmentOptions(MYSQL* connection);
 void searchByDepartment(MYSQL* connection);
@@ -42,6 +42,13 @@ void countEmployeesInDepartment(MYSQL* connection);
 Employee getEmployeeData(MYSQL* connection);
 void insertEmployeeInDatabase(MYSQL* connection, Employee e);
 void addElementOptions(MYSQL* connection);
-
+int searchEmployeeForUpdates(MYSQL* connection);
+void updateEmployeeName(MYSQL* connection, int id);
+void updateEmployeeSwitch(MYSQL* connection);
+void updateElementOptions(MYSQL* connection);
+void updateEmployeeLastname(MYSQL* connection, int id);
+void updateEmployeeName(MYSQL* connection, int id);
+void updateEmployeeGender(MYSQL* connection, int id);
+void updateEmployeeAddress(MYSQL* connection, int id);
 
 #endif
