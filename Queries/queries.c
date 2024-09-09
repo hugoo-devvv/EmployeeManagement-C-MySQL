@@ -361,19 +361,56 @@ void updateEmployeeSwitchOptions(MYSQL* connection) {
     }
 }
 
-void updateElementOptions(MYSQL* connection) {
-    int option = showCrudOptions();
-    if(option == 1) {
-        updateEmployeeSwitchOptions(connection);
-    }
-
+int searchDepartmentListForUpdates(MYSQL* connection) {
+    showDepartmentList(connection);
+    int option = get_int("Enter the department id: ");
+    return option;
 }
 
-/*
+void updateDepartmentName(MYSQL* connection, int id) {
+    string name = get_string_validation("Enter the new department name: ");
+    char query[256];
+    snprintf(query, sizeof(query), "UPDATE Department SET Name = '%s' WHERE Id = %d", name, id);
+    getQuery(connection, query);
+    free(name);
+}
 
-    TO-DO  finish update funcions
+void updateElementOptions(MYSQL* connection) {
+    int option = showCrudOptions();
+    int id; 
+    if(option == 1) {
+        updateEmployeeSwitchOptions(connection);
+    }else if (option == 2) {
+        id = searchDepartmentListForUpdates(connection);
+        updateDepartmentName(connection, id);
+    }else {
+         printf("\nEnter a valid option.");
+    }
+}
 
-*/
+void deleteEmployeeFromDatabase(MYSQL* connection) {
+    int id = searchEmployeeForUpdates(connection);
+    char query[256];
+    snprintf(query, sizeof(query), "DELETE FROM Employees WHERE Id = %d", id);
+    getQuery(connection, query);
+}
 
+void deleteDepartmentFromDatabase(MYSQL* connection) {
+    int id = searchDepartmentListForUpdates(connection);
+    char query[256];
+    snprintf(query, sizeof(query), "DELETE FROM Department WHERE Id = %d", id);
+    getQuery(connection, query);
+}
+
+void deleteElementsOptions(MYSQL* connection) {
+    int option = showCrudOptions();
+    if (option == 1) {
+        deleteEmployeeFromDatabase(connection);
+    }else if(option == 2) {
+        deleteDepartmentFromDatabase(connection);
+    }else {
+        printf("\nEnter a valid option.");
+    }
+}
 
 // To compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient

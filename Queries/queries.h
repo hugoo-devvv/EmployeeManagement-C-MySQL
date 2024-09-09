@@ -39,16 +39,26 @@ void searchByGender(MYSQL* connection);
 void searchOptionsCase(int option, MYSQL* connection);
 void searchOptions(MYSQL* connection);
 void countEmployeesInDepartment(MYSQL* connection);
-Employee getEmployeeData(MYSQL* connection);
+Employee getEmployeeData (MYSQL* connection);
+string getDepartmentData (MYSQL* connection);
+void insertDepartmentInDatabase(MYSQL* connection);
 void insertEmployeeInDatabase(MYSQL* connection, Employee e);
 void addElementOptions(MYSQL* connection);
 int searchEmployeeForUpdates(MYSQL* connection);
 void updateEmployeeName(MYSQL* connection, int id);
-void updateEmployeeSwitch(MYSQL* connection);
-void updateElementOptions(MYSQL* connection);
 void updateEmployeeLastname(MYSQL* connection, int id);
-void updateEmployeeName(MYSQL* connection, int id);
 void updateEmployeeGender(MYSQL* connection, int id);
 void updateEmployeeAddress(MYSQL* connection, int id);
+void updateEmployeeDepartmentId(MYSQL* connection, int id);
+void updateEmployeePhone(MYSQL* connection, int id);
+void updateEmployeeEntryDate(MYSQL* connection, int id);
+void updateEmployeeSwitchOptions(MYSQL* connection);
+int searchDepartmentListForUpdates(MYSQL* connection);
+void updateDepartmentName(MYSQL* connection, int id);
+void updateElementOptions(MYSQL* connection);
+void deleteEmployeeFromDatabase(MYSQL* connection);
+void deleteDepartmentFromDatabase(MYSQL* connection);
+void deleteElementsOptions(MYSQL* connection);
+
 
 #endif
