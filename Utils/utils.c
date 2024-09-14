@@ -64,17 +64,22 @@ string get_string_validation(const char* prompt){
 }
 
 int get_int(const char* prompt){
-    printf("\n%s", prompt);
-
     int value;
-    while(scanf("%d", &value) != 1){
-        if(value <= 0) {
-            printf("\nPlease, enter a valid number: ");
-            continue;
+    int result;
+
+    printf("\n%s", prompt);
+    do {
+        result = scanf("%d", &value);
+
+        if(result != 1) {
+            printf("\nPlease enter a valid integer: ");
+            while(getchar() != '\n'); 
+        } else if (value <= 0) {
+            printf("\nPlease enter a positive integer: ");
         }
-        while(getchar() != '\n');
-        printf("\nPlease, enter a integer value: ");
-    }
+
+    } while(result != 1 || value <= 0);
+
     return value;
 }
 
@@ -82,14 +87,21 @@ float get_float(const char* prompt){
     printf("%s", prompt);
 
     float value;
-    while(scanf("%f", &value) != 1){
-        if(value <= 0) {
-            printf("\nPlease, enter a valid number: ");
-            continue;
+    float result;
+
+    printf("\n%s", prompt);
+    do {
+        result = scanf("%f", &value);
+
+        if(result != 1) {
+            printf("\nPlease enter a valid integer: ");
+            while(getchar() != '\n'); 
+        } else if (value <= 0) {
+            printf("\nPlease enter a positive integer: ");
         }
-        while(getchar() != '\n');
-        printf("\nPlease, enter a decimal value: ");
-    }
+
+    } while(result != 1 || value <= 0);
+
     return value;
 }
 
