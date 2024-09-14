@@ -1,24 +1,27 @@
-# EmployeeManagement using C & MySQL
+# Employee Management System using C & MySQL
 
-<p>
-	A system who give us the posibility of manage and departments who include functionalities such as: 
-</p>
-- Display list of employees or department
-- An advance search for employees and departments
-- Counting employees in a determinated department
-- Full control of changes in employees or department such as adding, updating, deleting.
+## Overview
 
-## Tecnical specifications
+The Employee Management System is a C application that provides functionalities for managing employees and departments. It includes:
 
-**We are using a string data type**
+- Displaying lists of employees or departments.
+- Performing advanced searches for employees and departments.
+- Counting the number of employees in a specific department.
+- Full control over changes in employees or departments, including adding, updating, and deleting records.
 
-<p>  who only is an char pointer, but this might be more undestandable for c++ or another languaje users. In the Utils folder you will found validation functions who are very usefull and make more safest in the database insert or update.</p>
+## Technical Specifications
 
-  ```c
-typedef char* string;```
+### String Data Type
+
+In this project, `string` is defined as:
+
+```c
+typedef char* string;
+
+This is essentially a pointer to char, which may be more familiar to C++ or other language users.
 
    
-   ***you will also look an function called clearEntryBuffer**
+   ## you will also look an function called clearEntryBuffer
    
   ```c
   void cleanEntryBuffer() {
