@@ -63,7 +63,7 @@ void showCrudOptions(int* option);
 void showUpdateOptions(int* option);
 void searchOptionsCase(int option, MYSQL* connection);
 void updateEmployeeSwitchOptions(MYSQL* connection);
-
+void showMainOptions(MYSQL* connection, int option);
 
 
 #endif

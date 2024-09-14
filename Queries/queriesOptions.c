@@ -132,3 +132,36 @@ void deleteElementsOptions(MYSQL* connection) {
             break;
     }
 }
+
+void showMainOptions(MYSQL* connection, int option) {
+    switch(option){
+            case 1:
+                showEmployeeList(connection);
+            break;
+            case 2:
+                showDepartmentList(connection);
+            break;
+            case 3:
+                searchOptions(connection);
+            break;
+            case 4:
+                countEmployeesInDepartment(connection);
+            break;
+            case 5:
+                addElementOptions(connection);
+            break;
+            case 6:
+                updateElementOptions(connection);
+            break;
+            case 7:
+                deleteElementsOptions(connection);
+            break;
+            case 8:
+                printf("\nLeaving program...\n");
+                mysql_close(connection);
+            break;
+            default:
+                printf("\nPlease enter a valid option, try again.\n");
+            break;
+        }
+}
