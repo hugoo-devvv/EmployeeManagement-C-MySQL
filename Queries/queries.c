@@ -148,12 +148,9 @@ void searchByDepartment(MYSQL* connection) {
 }
 
 char searchByGenderOptions() {
-    showSearchByGenderMenu(); 
-    while(1){
-        char option = get_char("Enter your option: ");
-        if(option == 'M' || option == 'F') {return option;}
-        printf("\nPlease enter a valid sex.\n");
-    }
+   char option;
+   showSearchByGenderMenu(&option);
+   return option;
 }
 
 void searchByGender(MYSQL* connection) {
@@ -164,31 +161,9 @@ void searchByGender(MYSQL* connection) {
     displayEmployeeQueryAndHeader(connection, query);  
 }
 
-void searchOptionsCase(int option, MYSQL* connection) {
-    int id;
-    switch (option) {
-    case 1:
-        id = get_int("\nEnter id: ");
-        searchById(connection, id);
-        break;
-    case 2:
-        searchByName(connection);
-        break;
-    case 3:
-        searchByDepartment(connection);
-        break;
-    case 4:
-        searchByGender(connection);
-        break;
-    default:
-        printf("\nPlease, enter a valid option.\n");
-        break;
-    }
-}
-
 void searchOptions(MYSQL* connection) {
-    showSearchOptions();
-    int option = get_int("\nEnter your option: ");
+    int option;
+    showSearchOptions(&option);
     searchOptionsCase(option, connection);
 }
 
@@ -201,6 +176,19 @@ void countEmployeesInDepartment(MYSQL* connection) {
     executeAndDisplayQuery(connection, query, header, 1);
 }
 
+int getDepartmentIdWhileAddEmployee (MYSQL* connection) {
+    int option;
+    while(1) {
+        option = get_int("Enter the department id (Enter 0 if you want to see the departments): ");
+        if(option == 0) {
+            showDepartmentList(connection);
+        }else {
+            break;
+        }
+    }
+    return option;
+}
+
 Employee getEmployeeData (MYSQL* connection) {
     Employee e;
 
@@ -210,14 +198,7 @@ Employee getEmployeeData (MYSQL* connection) {
     e.sex = get_gender("Enter the gender (M / F): ");
     getchar();
     e.address = get_string_validation("Enter the address: ");
-    while(1) {
-        e.departmentId = get_int("Enter the department id (Enter 0 if you want to see the departments): ");
-        if(e.departmentId == 0) {
-            showDepartmentList(connection);
-        }else {
-            break;
-        }
-    }
+    e.departmentId = getDepartmentIdWhileAddEmployee(connection);
     getchar();
     e.phone = get_string_validation("Enter the phone number: ");
     e.entryDate = get_date("Enter the entry date (Format: YYYY-MM-DD): ");
@@ -250,7 +231,8 @@ void insertEmployeeInDatabase(MYSQL* connection, Employee e) {
 }
 
 void addElementOptions(MYSQL* connection) {
-    int option = showCrudOptions();
+    int option;
+    showCrudOptions(&option);
     if(option == 1) {
         Employee newEmployee = getEmployeeData(connection);
         insertEmployeeInDatabase(connection, newEmployee);
@@ -330,37 +312,6 @@ void updateEmployeeEntryDate(MYSQL* connection, int id) {
     getQuery(connection, query);
 }
 
-void updateEmployeeSwitchOptions(MYSQL* connection) {
-    int id = searchEmployeeForUpdates(connection);
-    int option = showUpdateOptions();
-    switch(option) {
-        case 1:
-            updateEmployeeName(connection, id);
-        break;
-        case 2:
-            updateEmployeeLastname(connection, id);
-        break;
-        case 3:
-            updateEmployeeGender(connection, id);
-        break;
-        case 4:
-            updateEmployeeAddress(connection, id);
-        break;
-        case 5:
-            updateEmployeeDepartmentId(connection, id);
-        break;
-        case 6:
-            updateEmployeePhone(connection, id);
-        break;
-        case 7:
-            updateEmployeeEntryDate(connection, id);
-        break;
-        default:
-            printf("\nEnter a valid option.\n");
-        break;
-    }
-}
-
 int searchDepartmentListForUpdates(MYSQL* connection) {
     showDepartmentList(connection);
     int option = get_int("Enter the department id: ");
@@ -373,19 +324,6 @@ void updateDepartmentName(MYSQL* connection, int id) {
     snprintf(query, sizeof(query), "UPDATE Department SET Name = '%s' WHERE Id = %d", name, id);
     getQuery(connection, query);
     free(name);
-}
-
-void updateElementOptions(MYSQL* connection) {
-    int option = showCrudOptions();
-    int id; 
-    if(option == 1) {
-        updateEmployeeSwitchOptions(connection);
-    }else if (option == 2) {
-        id = searchDepartmentListForUpdates(connection);
-        updateDepartmentName(connection, id);
-    }else {
-         printf("\nEnter a valid option.");
-    }
 }
 
 void deleteEmployeeFromDatabase(MYSQL* connection) {
@@ -402,15 +340,5 @@ void deleteDepartmentFromDatabase(MYSQL* connection) {
     getQuery(connection, query);
 }
 
-void deleteElementsOptions(MYSQL* connection) {
-    int option = showCrudOptions();
-    if (option == 1) {
-        deleteEmployeeFromDatabase(connection);
-    }else if(option == 2) {
-        deleteDepartmentFromDatabase(connection);
-    }else {
-        printf("\nEnter a valid option.");
-    }
-}
 
-// To compile gcc -o main Queries/queries.c main.c Utils/utils.c Utils/options.c -lmysqlclient
+// To compile gcc -o main Queries/queries.c main.c Utils/utils.c Queries/queriesOptions.c -lmysqlclient

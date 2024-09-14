@@ -1,9 +1,8 @@
 #ifndef QUERIES_H
 #define QUERIES_H
 
-    #include "../Utils/config.h"
+    #include "../Utils/config.h" // MySQL credentials
     #include "../Utils/utils.h"
-    #include <mysql/mysql.h>
 
 typedef struct {
 
@@ -36,11 +35,10 @@ int searchByDepartmentOptions(MYSQL* connection);
 void searchByDepartment(MYSQL* connection);
 char searchByGenderOptions();
 void searchByGender(MYSQL* connection);
-void searchOptionsCase(int option, MYSQL* connection);
 void searchOptions(MYSQL* connection);
 void countEmployeesInDepartment(MYSQL* connection);
-Employee getEmployeeData (MYSQL* connection);
-string getDepartmentData (MYSQL* connection);
+Employee getEmployeeData(MYSQL* connection);
+string getDepartmentData(MYSQL* connection);
 void insertDepartmentInDatabase(MYSQL* connection);
 void insertEmployeeInDatabase(MYSQL* connection, Employee e);
 void addElementOptions(MYSQL* connection);
@@ -52,13 +50,20 @@ void updateEmployeeAddress(MYSQL* connection, int id);
 void updateEmployeeDepartmentId(MYSQL* connection, int id);
 void updateEmployeePhone(MYSQL* connection, int id);
 void updateEmployeeEntryDate(MYSQL* connection, int id);
-void updateEmployeeSwitchOptions(MYSQL* connection);
 int searchDepartmentListForUpdates(MYSQL* connection);
 void updateDepartmentName(MYSQL* connection, int id);
 void updateElementOptions(MYSQL* connection);
 void deleteEmployeeFromDatabase(MYSQL* connection);
 void deleteDepartmentFromDatabase(MYSQL* connection);
 void deleteElementsOptions(MYSQL* connection);
+void showSearchOptions(int* option);
+void showMainMenu(int* option);
+void showSearchByGenderMenu(char* option);
+void showCrudOptions(int* option);
+void showUpdateOptions(int* option);
+void searchOptionsCase(int option, MYSQL* connection);
+void updateEmployeeSwitchOptions(MYSQL* connection);
+
 
 
 #endif

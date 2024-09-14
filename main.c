@@ -6,8 +6,7 @@ int main(){
     MYSQL* con = createDatabaseConnection();
         
     do{
-        showMainMenu();
-        option = get_int("Enter your option: ");
+        showMainMenu(&option);
 
         switch(option){
             case 1:
