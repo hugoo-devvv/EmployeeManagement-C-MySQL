@@ -1,6 +1,6 @@
 #include "queries.h"
 
-void showSearchOptions(int* option){
+void showSearchOptions(int* option) { 
     printf("\n1.- Search by id");
     printf("\n2.- Search by name");
     printf("\n3.- Search by department");
@@ -8,7 +8,7 @@ void showSearchOptions(int* option){
     *option = get_int("Enter option: ");
 }
 
-void showMainMenu(int* option){
+void showMainMenu(int* option) {
     printf("\n\nEMPLOYEE MANAGEMENT\n\n");
     printf("1. - Display employee list\n");
     printf("2. - Display department list\n");
@@ -26,7 +26,7 @@ void showSearchByGenderMenu(char* option) {
     *option = get_gender("Enter option: ");
 }
 
-void showCrudOptions(int* option){
+void showCrudOptions(int* option) {
     printf("\nSELECT WICH OPTION YOU WISH TO MODIFY\n");
     printf("\n1.- Employee");
     printf("\n2.- Department");
