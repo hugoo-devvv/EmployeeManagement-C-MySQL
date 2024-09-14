@@ -14,11 +14,11 @@
 
 
 ```c
-typedef char* string```
+typedef char* string
 
    who only is an char pointer, but this might be more undestandable for c++ or another languaje users. 
    
-   In the Utils folder you will found validation functions who are very usefull and make more safest in the database insert or update.
+   In the Utils folder you'll found validation functions who are very usefull and make more safest in the database insert or update.
    
    ***you will also look an function called "clearEntryBuffer"**
    
@@ -26,7 +26,7 @@ typedef char* string```
   void cleanEntryBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
-  }```
+  }
 
 This function removes the line break that occurs after inputting a string. This is necessary because when the system reads an integer or another data type, it leaves a newline character in the input buffer. This newline character can interfere with subsequent string inputs, preventing them from being read correctly.
 
@@ -54,7 +54,7 @@ In the parameters in the function i added the config.h "#defines" who have all t
     Id INT NOT NULL AUTO_INCREMENT,
     Name VARCHAR(25) NOT NULL,
     PRIMARY KEY (Id)
-);```
+);
   
   **For employees table desing we have an forgein key connected in id of department**
   ```sql
