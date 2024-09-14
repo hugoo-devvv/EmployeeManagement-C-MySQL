@@ -5,7 +5,7 @@ void cleanEntryBuffer() {
     while((c = getchar() != '\n') && c != EOF);
 }
 
-static string get_string(){
+string get_string(){
     size_t len = 0;
     string line = NULL;
     getline(&line, &len, stdin);

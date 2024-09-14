@@ -7,7 +7,7 @@ int main(){
         
     do{
         showMainMenu(&option);
-        showMainMenuOptions(connection, option);
+        showMainOptions(connection, option);
     }while(option != 8);
 
     return 0;

@@ -141,7 +141,7 @@ void searchByDepartment(MYSQL* connection) {
     int id = searchByDepartmentOptions(connection);
 
     char query[256];
-    snprintf(query, sizeof(query), "SELECT * FROM Employees WHERE DepartamentID = %d", id);
+    snprintf(query, sizeof(query), "SELECT * FROM Employees WHERE DepartmentID = %d", id);
     displayEmployeeQueryAndHeader(connection, query);
 }
 
@@ -168,7 +168,7 @@ void countEmployeesInDepartment(MYSQL* connection) {
     int id = searchByDepartmentOptions(connection);
 
     char query[256];
-    snprintf(query, sizeof(query), "SELECT COUNT(*) AS TOTAL FROM Employees WHERE DepartamentID = %d", id);
+    snprintf(query, sizeof(query), "SELECT COUNT(*) AS TOTAL FROM Employees WHERE DepartmentID = %d", id);
     string header[] = {"TOTAL"};
     executeAndDisplayQuery(connection, query, header, 1);
 }
@@ -220,7 +220,7 @@ void insertDepartmentInDatabase (MYSQL* connection) {
 void insertEmployeeInDatabase(MYSQL* connection, Employee e) {
     char query[255];
     snprintf(query, sizeof(query),
-             "INSERT INTO Employees (Name, Lastname, Sex, address, DepartamentId, Phone, EntryDate) "
+             "INSERT INTO Employees (Name, Lastname, Sex, address, DepartmentId, Phone, EntryDate) "
              "VALUES ('%s', '%s', '%c', '%s', %d, %s, '%d-%d-%d');",
              e.name, e.lastname, e.sex, e.address, e.departmentId, e.phone, e.entryDate.year, e.entryDate.month, e.entryDate.day);
 
@@ -291,7 +291,7 @@ void updateEmployeeAddress(MYSQL* connection, int id) {
 void updateEmployeeDepartmentId(MYSQL* connection, int id) {
     int departmentId = get_int("Enter the new department id: ");
     char query[256];
-    snprintf(query, sizeof(query), "UPDATE Employees SET DepartamentId = %d WHERE Id = %d", departmentId, id);
+    snprintf(query, sizeof(query), "UPDATE Employees SET DepartmentId = %d WHERE Id = %d", departmentId, id);
     getQuery(connection, query);
 }
 
