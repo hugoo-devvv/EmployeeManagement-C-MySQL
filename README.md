@@ -12,15 +12,13 @@
 
 **We are using a string data type**
 
-
 ```c
 typedef char* string
 
-   who only is an char pointer, but this might be more undestandable for c++ or another languaje users. 
+<p>  who only is an char pointer, but this might be more undestandable for c++ or another languaje users. In the Utils folder you will found validation functions who are very usefull and make more safest in the database insert or update.</p>
+
    
-   In the Utils folder you'll found validation functions who are very usefull and make more safest in the database insert or update.
-   
-   ***you will also look an function called "clearEntryBuffer"**
+   ***you will also look an function called clearEntryBuffer**
    
   ```c
   void cleanEntryBuffer() {
@@ -32,17 +30,17 @@ This function removes the line break that occurs after inputting a string. This 
 
 **Connection to database**
 
-You might be see in queries.h is an include to "config.h" this file have the mySQL credentials such as password, port, database name, etc.
+You might be see in queries.h is an include to **config.g** this file have the mySQL credentials such as password, port, database name, etc.
 
 ```c
 mysql_real_connect(connection, HOST, USER, PASSWORD, DATABASE, PORT, NULL, 0) == NULL)```
 
-In the parameters in the function i added the config.h "#defines" who have all the credentials. You should create an config.h file and make your own defines with you credentials.
+In the parameters in the function i added the config.h #defines who have all the credentials. You should create an config.h file and make your own defines with you credentials.
 
    
    ## Database specifications
    
-   Like i said before i've been using MySQL database in this proyect. I've using two tables who you should create to use this repository. 
+   Like i said before i have been using MySQL database in this proyect. I have using two tables who you should create to use this repository. 
    
   This two tables are:
   - Employees
@@ -69,5 +67,4 @@ CREATE TABLE Employees (
     EntryDate DATE,
     PRIMARY KEY (Id),
     FOREIGN KEY (DepartmentID) REFERENCES Department(Id)
-);```
- 
+); 
