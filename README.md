@@ -13,11 +13,12 @@
 **We are using a string data type**
 
 
-```typedef char* string```
+```c
+typedef char* string```
 
    who only is an char pointer, but this might be more undestandable for c++ or another languaje users. 
    
-   In the Utils folder you'll found validation functions who are very usefull and make more safest in the database insert or update.
+   In the Utils folder you will found validation functions who are very usefull and make more safest in the database insert or update.
    
    ***you will also look an function called "clearEntryBuffer"**
    
