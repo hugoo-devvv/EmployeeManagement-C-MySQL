@@ -1,6 +1,11 @@
 #include "utils.h"
 
-string get_string(){
+void cleanEntryBuffer() {
+    int c;
+    while((c = getchar() != '\n') && c != EOF);
+}
+
+static string get_string(){
     size_t len = 0;
     string line = NULL;
     getline(&line, &len, stdin);
@@ -63,6 +68,10 @@ int get_int(const char* prompt){
 
     int value;
     while(scanf("%d", &value) != 1){
+        if(value <= 0) {
+            printf("\nPlease, enter a valid number: ");
+            continue;
+        }
         while(getchar() != '\n');
         printf("\nPlease, enter a integer value: ");
     }
@@ -74,6 +83,10 @@ float get_float(const char* prompt){
 
     float value;
     while(scanf("%f", &value) != 1){
+        if(value <= 0) {
+            printf("\nPlease, enter a valid number: ");
+            continue;
+        }
         while(getchar() != '\n');
         printf("\nPlease, enter a decimal value: ");
     }

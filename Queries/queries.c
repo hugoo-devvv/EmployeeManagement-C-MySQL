@@ -123,7 +123,7 @@ void searchById(MYSQL* connection, int id) {
 
 void searchByName(MYSQL* connection) {
     char query[256];
-    getchar();
+    cleanEntryBuffer();
     string name = get_string_validation("Enter the name: ");
     snprintf(query,sizeof(query),"SELECT * FROM Employees WHERE Name = '%s'", name);
     free(name);
@@ -132,11 +132,9 @@ void searchByName(MYSQL* connection) {
 
 int searchByDepartmentOptions(MYSQL* connection) {
     showDepartmentList(connection);
-    while(1){
-        int option = get_int("Choose the department: ");
-        if(option != 0 && option > 0) {return option;}
-        printf("\nPlease, enter a valid id.\n");
-    }
+    int option;
+        option = get_int("Choose the department: ");
+    return option;
 }
 
 void searchByDepartment(MYSQL* connection) {
@@ -155,7 +153,6 @@ char searchByGenderOptions() {
 
 void searchByGender(MYSQL* connection) {
     char gender = searchByGenderOptions(connection);
-
     char query[256];
     snprintf(query, sizeof(query), "SELECT * FROM Employees WHERE Sex = '%c'", gender); 
     displayEmployeeQueryAndHeader(connection, query);  
@@ -192,14 +189,14 @@ int getDepartmentIdWhileAddEmployee (MYSQL* connection) {
 Employee getEmployeeData (MYSQL* connection) {
     Employee e;
 
-    getchar();
+    cleanEntryBuffer();
     e.name = get_string_validation("Enter the name: ");
     e.lastname = get_string_validation("Enter the lastname: ");
     e.sex = get_gender("Enter the gender (M / F): ");
-    getchar();
+    cleanEntryBuffer();
     e.address = get_string_validation("Enter the address: ");
     e.departmentId = getDepartmentIdWhileAddEmployee(connection);
-    getchar();
+    cleanEntryBuffer();
     e.phone = get_string_validation("Enter the phone number: ");
     e.entryDate = get_date("Enter the entry date (Format: YYYY-MM-DD): ");
 
@@ -207,7 +204,7 @@ Employee getEmployeeData (MYSQL* connection) {
 }
 
 string getDepartmentData (MYSQL* connection) {
-    getchar();
+    cleanEntryBuffer();
     string name = get_string_validation("Enter the department name: ");
 
     return name;
@@ -257,7 +254,7 @@ int searchEmployeeForUpdates(MYSQL* connection) {
 }
 
 void updateEmployeeName(MYSQL* connection, int id) {
-    getchar();
+    cleanEntryBuffer();
     string name = get_string_validation("Enter new name: ");
     char query[256];
     snprintf(query, sizeof(query), "UPDATE Employees SET Name = '%s' WHERE Id = %d", name, id);
@@ -266,7 +263,7 @@ void updateEmployeeName(MYSQL* connection, int id) {
 }
 
 void updateEmployeeLastname(MYSQL* connection, int id) {
-    getchar();
+    cleanEntryBuffer();
     string lastname = get_string_validation("Enter the new lastname: ");
     char query[256];
     snprintf(query, sizeof(query), "UPDATE Employees SET Lastname = '%s' WHERE Id = %d", lastname, id);
@@ -275,7 +272,7 @@ void updateEmployeeLastname(MYSQL* connection, int id) {
 }
 
 void updateEmployeeGender(MYSQL* connection, int id) {
-    getchar();
+    cleanEntryBuffer();
     char gender = get_gender("Enter the new gender (M / F): ");
     char query[256];
     snprintf(query, sizeof(query), "UPDATE Employees SET Sex = '%c' WHERE Id = %d", gender, id);
@@ -283,7 +280,7 @@ void updateEmployeeGender(MYSQL* connection, int id) {
 }
 
 void updateEmployeeAddress(MYSQL* connection, int id) {
-    getchar();
+    cleanEntryBuffer();
     string address = get_string_validation("Enter the new address: ");
     char query[256];
     snprintf(query, sizeof(query), "UPDATE Employees SET Address = '%s' WHERE Id = %d", address, id);
@@ -319,6 +316,7 @@ int searchDepartmentListForUpdates(MYSQL* connection) {
 }
 
 void updateDepartmentName(MYSQL* connection, int id) {
+    cleanEntryBuffer();
     string name = get_string_validation("Enter the new department name: ");
     char query[256];
     snprintf(query, sizeof(query), "UPDATE Department SET Name = '%s' WHERE Id = %d", name, id);

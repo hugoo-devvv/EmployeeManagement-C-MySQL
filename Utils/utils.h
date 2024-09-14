@@ -15,6 +15,7 @@ typedef struct { // YYYY-MM-DD Format
     int day;
 }Date;
 
+void cleanEntryBuffer();
 string get_string();
 string get_email(const char* prompt);
 string get_string_validation(const char* prompt);
