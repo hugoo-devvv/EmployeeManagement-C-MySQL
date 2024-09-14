@@ -12,10 +12,10 @@
 
 **We are using a string data type**
 
-```c
-typedef char* string
-
 <p>  who only is an char pointer, but this might be more undestandable for c++ or another languaje users. In the Utils folder you will found validation functions who are very usefull and make more safest in the database insert or update.</p>
+
+  ```c
+typedef char* string;```
 
    
    ***you will also look an function called clearEntryBuffer**
@@ -24,7 +24,7 @@ typedef char* string
   void cleanEntryBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
-  }
+  }```
 
 This function removes the line break that occurs after inputting a string. This is necessary because when the system reads an integer or another data type, it leaves a newline character in the input buffer. This newline character can interfere with subsequent string inputs, preventing them from being read correctly.
 
@@ -35,12 +35,12 @@ You might be see in queries.h is an include to **config.g** this file have the m
 ```c
 mysql_real_connect(connection, HOST, USER, PASSWORD, DATABASE, PORT, NULL, 0) == NULL)```
 
-In the parameters in the function i added the config.h #defines who have all the credentials. You should create an config.h file and make your own defines with you credentials.
+In the parameters in the function i added the config.h "#defines" who have all the credentials. You should create an config.h file and make your own defines with you credentials.
 
    
    ## Database specifications
    
-   Like i said before i have been using MySQL database in this proyect. I have using two tables who you should create to use this repository. 
+   Like i said before i've been using MySQL database in this proyect. I've using two tables who you should create to use this repository. 
    
   This two tables are:
   - Employees
@@ -52,7 +52,7 @@ In the parameters in the function i added the config.h #defines who have all the
     Id INT NOT NULL AUTO_INCREMENT,
     Name VARCHAR(25) NOT NULL,
     PRIMARY KEY (Id)
-);
+);```
   
   **For employees table desing we have an forgein key connected in id of department**
   ```sql
@@ -67,4 +67,5 @@ CREATE TABLE Employees (
     EntryDate DATE,
     PRIMARY KEY (Id),
     FOREIGN KEY (DepartmentID) REFERENCES Department(Id)
-); 
+);```
+ 
